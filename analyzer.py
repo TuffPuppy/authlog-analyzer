@@ -6,6 +6,8 @@ def main():
     try:
         with open(log_file, "r") as file:
             ip_counts = {}
+            ip_users = {}
+          
             for line in file:
                 match = re.search(pattern, line)
 
@@ -17,7 +19,13 @@ def main():
                         ip_counts[ip] += 1
                     else:
                         ip_counts[ip] = 1
-                    print()
+                    if ip in ip_users:
+                        ip_users[ip].add(user)
+                    else:
+                        ip_users[ip] = {user}
+               
+                    
+                     
         print("\n=========================")
         print("Suspicious IP Report")
         print("=========================\n")
@@ -32,6 +40,11 @@ def main():
 
             print(f"IP Address: {ip}")
             print(f"Failed Attempts: {count}")
+            print(f"Users Targeted:")
+
+            for users in ip_users[ip]:
+                print(f"- {user}")
+
             print(f"Severity: {severity}")
             print()
 
